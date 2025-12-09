@@ -1,0 +1,34 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Compile all Java files
+        run: |
+          javac *.java
+
+      - name: Run main program
+        run: |
+          # Change 'Main' if your main class has a different name
+          if ls Main.class 1> /dev/null 2>&1; then
+            java Main
+          else
+            echo "Main.class not found - update the workflow to use your main class name"
+          fi
